@@ -30,8 +30,8 @@ return new class extends Migration
             $table->integer('assembly_time')->nullable(); // Assembly time required (in 2-hour blocks)
             $table->decimal('costs', 10, 2)->nullable(); // Cost per module
             $table->string('image')->nullable(); // Image of the module
+            $table->json('compatible_chassis')->nullable();
             $table->timestamps();
-            
         });
     }
 

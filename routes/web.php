@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VehicleAssemblyController;
-
+use App\Http\Controllers\PlanningController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,18 +24,20 @@ Route::middleware(['auth'])->group(function () {
 
     // Planner
     Route::middleware(['role:planner'])->group(function () {
-        Route::get('/planner-dashboard', [HomeController::class, 'plannerDashboard'])->name('planner-dashboard');
+        Route::get('/planner-dashboard', [HomeController::class, 'plannerDashboard'])->name('planner.dashboard');
+        Route::get('/planner-calender', [PlanningController::class, 'index'])->name('planner.calender');
+        Route::post('/planner/assign', [PlanningController::class, 'assignVehicle'])->name('planner.assignVehicle');
     });
 
     // Klant 
-    Route::middleware(['role:klant'])->group(function () {
-        Route::get('/klant-dashboard', [HomeController::class, 'klantDashboard'])->name('klant-dashboard');
-    });
+    // Route::middleware(['role:klant'])->group(function () {
+    //     Route::get('/klant-dashboard', [HomeController::class, 'klantDashboard'])->name('klant-dashboard');
+    // });
 
-    // Inkoper
-    Route::middleware(['role:inkoper'])->group(function () {
-        Route::get('/inkoper-dashboard', [HomeController::class, 'inkoperDashboard'])->name('inkoper-dashboard');
-    });
+    // // Inkoper
+    // Route::middleware(['role:inkoper'])->group(function () {
+    //     Route::get('/inkoper-dashboard', [HomeController::class, 'inkoperDashboard'])->name('inkoper-dashboard');
+    // });
 });
 
 Route::get('/dashboard', function () {

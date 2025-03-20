@@ -11,12 +11,12 @@ class Module extends Model
         'name',
         'module_type',
         'amount_of_wheels',
-        'vehicle_id', 
+        'vehicle_id',
         'dimensions',
         'drivetrain_type',
         'power',
         'tire_type',
-        'diameter',
+        'tire_diameter', 
         'number_of_tires',
         'special_modifications',
         'steering_shape',
@@ -24,8 +24,10 @@ class Module extends Model
         'upholstery',
         'assembly_time',
         'costs',
-        'image'
+        'image',
+        'compatible_chassis', 
     ];
+    
 
     // Relationship
     public function vechile(){

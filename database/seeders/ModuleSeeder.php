@@ -15,7 +15,8 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
            $vehicle = Vehicle::create([
-            'type' => 'Personenauto' 
+            'name' => 'Nikinella', 
+            'vehicle_type_id' => 1
         ]);
 
           // Chassis Nikinella

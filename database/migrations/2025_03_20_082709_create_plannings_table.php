@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicles', function (Blueprint $table) {
+        Schema::create('plannings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignIdFor(App\Models\VehicleType::class);
+            $table->date('date'); // Date
+            $table->string('timeslot'); // Timeslot for date
+            $table->foreignId('vehicle_id')->nullable()->constrained()->onDelete('cascade'); // Forgein key for vehicle can be null with oncascade  delete constraint
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicles');
+        Schema::dropIfExists('plannings');
     }
 };

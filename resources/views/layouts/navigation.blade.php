@@ -12,25 +12,15 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    @if(auth()->user() && auth()->user()->hasRole('planner'))
+                    <x-nav-link :href="route('planner.dashboard')" :active="request()->routeIs('planner.dashboard')">
+                        {{ __('Planner Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('planner.calender')" :active="request()->routeIs('planner.calender')">
+                        {{ __('Planner Kalender') }}
+                    </x-nav-link>
+                    @endif
                 </div>
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('vechile_assembly')" :active="request()->routeIs('vechile_assembly')">
-                        {{ __('Voertuigassemblage') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('calender')" :active="request()->routeIs('calender')">
-                        {{ __('Kalender planner') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('vechiles_complete')" :active="request()->routeIs('vechiles_complete')">
-                        {{ __('Voertuigen compleet') }}
-                    </x-nav-link>
-                </div> --}}
             </div>
 
             <!-- Settings Dropdown -->
