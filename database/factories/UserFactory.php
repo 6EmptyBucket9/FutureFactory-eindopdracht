@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Models\Vehicle;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -26,8 +26,9 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => bcrypt('password'), // Password is bcrypt encrypted.
+            'password' => static::$password ??= Hash::make('password'), 
             'role' => $this->faker->randomElement(['planner', 'monteur', 'inkoper', 'klant']),
+            'vehicle_id' => Vehicle::inRandomOrder()->first()?->id,
         ];
     }
 

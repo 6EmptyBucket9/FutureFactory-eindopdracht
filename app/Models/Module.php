@@ -25,12 +25,16 @@ class Module extends Model
         'assembly_time',
         'costs',
         'image',
-        'compatible_chassis', 
+        'compatible_chassis',
     ];
     
 
     // Relationship
     public function vechile(){
         return $this->belongsTo(Vehicle::class);
+    }
+    public function plannings()
+    {
+        return $this->hasMany(Planning::class);
     }
 }

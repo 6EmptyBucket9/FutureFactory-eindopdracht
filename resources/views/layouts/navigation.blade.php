@@ -17,9 +17,24 @@
                         {{ __('Planner Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('planner.calender')" :active="request()->routeIs('planner.calender')">
-                        {{ __('Planner Kalender') }}
+                        {{ __('Kalender') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('planner.productiePlanning')" :active="request()->routeIs('planner.productiePlanning')">
+                        {{ __('Productieplanning') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('planner.completedVehicles')" :active="request()->routeIs('planner.completedVehicles')">
+                        {{ __('Overzicht van voltooide voertuigen') }}
+                    </x-nav-link>
+                    @elseif(auth()->user() && auth()->user()->hasRole('klant'))
+                    <x-nav-link :href="route('klant.dashboard')" :active="request()->routeIs('klant.dashboard')">
+                        {{ __('Klanten Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('klant.voortgang')" :active="request()->routeIs('klant.voortgang')">
+                        {{ __('Voortgang') }}
+                    </x-nav-link>
+                    
                     @endif
+    
                 </div>
             </div>
 

@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\RoleMiddleware;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlannerDashboard;
 use App\Http\Controllers\VehicleAssemblyController;
-use App\Http\Controllers\PlanningController;
+use App\Http\Controllers\CalenderController;
+use App\Http\Controllers\CompletedVehicleSummaryController;
+use App\Http\Controllers\ProductionPlanningController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KlantVoortgangController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -25,14 +29,24 @@ Route::middleware(['auth'])->group(function () {
     // Planner
     Route::middleware(['role:planner'])->group(function () {
         Route::get('/planner-dashboard', [HomeController::class, 'plannerDashboard'])->name('planner.dashboard');
-        Route::get('/planner-calender', [PlanningController::class, 'index'])->name('planner.calender');
-        Route::post('/planner/assign', [PlanningController::class, 'assignVehicle'])->name('planner.assignVehicle');
+        // Productionplanning
+        Route::get('/planner-productieplanning', [ProductionPlanningController::class, 'productiePlanning'])->name('planner.productiePlanning');
+        Route::post('/planner/assign/productieplanning', [ProductionPlanningController::class, 'assignVehicleProductiePlanning'])->name('planner.assignVehicleProductiePlanning');
+        // Calender
+        Route::get('/planner-calender', [CalenderController::class, 'index'])->name('planner.calender');
+        Route::post('/planner/assign', [CalenderController::class, 'assignVehicle'])->name('planner.assignVehicle');
+        Route::post('/planner/assignModule', [CalenderController::class, 'assignModule'])->name('planner.assignModule');
+        // Completed vehicle summary
+        Route::get('/planner/completed-vehicles', [CompletedVehicleSummaryController::class, 'index'])->name('planner.completedVehicles');
     });
 
     // Klant 
-    // Route::middleware(['role:klant'])->group(function () {
-    //     Route::get('/klant-dashboard', [HomeController::class, 'klantDashboard'])->name('klant-dashboard');
-    // });
+    Route::middleware(['role:klant'])->group(function () {
+        Route::get('/klant-dashboard', [HomeController::class, 'klantDashboard'])->name('klant.dashboard');
+        Route::get('/klant-voortgang', [KlantVoortgangController::class, 'index'])->name('klant.voortgang');
+
+        
+    });
 
     // // Inkoper
     // Route::middleware(['role:inkoper'])->group(function () {

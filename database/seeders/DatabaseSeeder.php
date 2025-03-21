@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             PlanningSeeder::class,
             VehicleTypeSeeder::class,
             VehicleSeeder::class,
-            
+            ProductiePlanningSeeder::class,
+
             
         ]);
 
