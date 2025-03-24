@@ -21,8 +21,19 @@
                                     <span>(Nog niet voltooid)</span>
                                 @endif
                             </h4>
+
+                            <!-- Add the current status of the vehicle -->
+                            <p class="text-sm font-medium mt-2">
+                                <strong>Status:</strong>
+                                <span class="text-gray-600">
+                                    {{ ucfirst($vehicle->status) }}
+                                </span>
+                            </p>
+
                             <p>Geplande opleverdatum: {{ $vehicle->expected_completion_date }}</p>
                             <p>Voltooide Datum: {{ $vehicle->completion_date ? $vehicle->completion_date : 'Nog niet gecompleteerd' }}</p>
+                            
+                            <!-- Show vehicle planning details -->
                             <ul>
                                 @foreach ($vehicle->planning as $planning)
                                     <li>

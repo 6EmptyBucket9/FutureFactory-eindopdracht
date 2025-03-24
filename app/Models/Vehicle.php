@@ -9,7 +9,7 @@ class Vehicle extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'vehicle_type_id', 'completion_date', 'user_id', 'expected_completion_date'];
+    protected $fillable = ['name', 'vehicle_type_id', 'completion_date', 'user_id', 'expected_completion_date', 'status'];
     // Relationship
     public function modules()
     {
@@ -36,5 +36,9 @@ class Vehicle extends Model
     public function robot()
     {
         return $this->belongsTo(Robot::class);
+    }
+    public static function getStatusOptions()
+    {
+        return ['in productie', 'gereed voor levering', 'geleverd'];
     }
 }

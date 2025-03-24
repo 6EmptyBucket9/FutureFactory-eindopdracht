@@ -31,13 +31,13 @@ class AuthenticatedSessionController extends Controller
         $role = Auth::user()->role;
         switch ($role) {
             case 'monteur':
-                return redirect()->route('monteur-vehicle-assembly');
+                return redirect()->route('monteur.dashboard');
             case 'planner':
                 return redirect()->route('planner.dashboard');
             case 'klant':
-                return redirect()->route('klant-dashboard');
+                return redirect()->route('klant.dashboard');
             case 'inkoper':
-                return redirect()->route('inkoper-dashboard');
+                return redirect()->route('inkoper.dashboard');
             default:
                 return redirect()->route('dashboard');
         }
