@@ -16,6 +16,12 @@ class ModuleController extends Controller
     {
         return Module::whereIn('id', $ids)->get();
     }
-
+    public static function createModule(array $module){
+        Module::create($module);
+    }
+    public static function softDeleteModule($id){
+        $module = Module::findOrFail($id);
+        $module->delete();  
+    }
 
 }

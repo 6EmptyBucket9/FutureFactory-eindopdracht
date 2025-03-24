@@ -9,6 +9,7 @@ use App\Http\Controllers\CompletedVehicleSummaryController;
 use App\Http\Controllers\ProductionPlanningController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KlantVoortgangController;
+use App\Http\Controllers\ModuleSummaryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,10 +21,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:monteur'])->group(function () {
         Route::get('/monteur-samenstelling', [VehicleAssemblyController::class, 'index'])->name('monteur-vehicle-assembly');
         Route::post('/assemble/vehicle', [VehicleAssemblyController::class, 'assembleVehicle'])->name('assemble.vehicle');
-        
-     
-        Route::middleware(['auth', 'role:monteur'])->get('/monteur-afgeronde-samenstelling', [VehicleAssemblyController::class, 'completedAssembly'])->name('monteur-completed-assembly');
 
+
+        Route::middleware(['auth', 'role:monteur'])->get('/monteur-afgeronde-samenstelling', [VehicleAssemblyController::class, 'completedAssembly'])->name('monteur-completed-assembly');
     });
 
     // Planner
@@ -44,14 +44,18 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:klant'])->group(function () {
         Route::get('/klant-dashboard', [HomeController::class, 'klantDashboard'])->name('klant.dashboard');
         Route::get('/klant-voortgang', [KlantVoortgangController::class, 'index'])->name('klant.voortgang');
-
-        
     });
 
     // // Inkoper
-    // Route::middleware(['role:inkoper'])->group(function () {
-    //     Route::get('/inkoper-dashboard', [HomeController::class, 'inkoperDashboard'])->name('inkoper-dashboard');
-    // });
+    Route::middleware(['role:inkoper'])->group(function () {
+        Route::get('/inkoper-dashboard', [HomeController::class, 'inkoperDashboard'])->name('inkoper.dashboard');
+        Route::get('/inkoper-module-overzicht', [ModuleSummaryController::class, 'index'])->name('inkoper.module-summary');
+        Route::get('/inkoper/modules/{module}/edit', [ModuleSummaryController::class, 'edit'])->name('inkoper.module-edit');
+        Route::put('/inkoper/modules/{module}', [ModuleSummaryController::class, 'update'])->name('inkoper.module-update');
+        Route::get('/inkoper/modules/create', [ModuleSummaryController::class, 'create'])->name('inkoper.module-create');
+        Route::post('/inkoper/modules', [ModuleSummaryController::class, 'store'])->name('inkoper.module-store');
+        Route::delete('inkoper/modules/{id}/softDelete', [ModuleSummaryController::class, 'softDelete'])->name('modules.softDelete');
+    });
 });
 
 Route::get('/dashboard', function () {
