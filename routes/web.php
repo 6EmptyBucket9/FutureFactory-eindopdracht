@@ -9,6 +9,7 @@ use App\Http\Controllers\CompletedVehicleSummaryController;
 use App\Http\Controllers\ProductionPlanningController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KlantVoortgangController;
+use App\Http\Controllers\ModuleCostController;
 use App\Http\Controllers\ModuleSummaryController;
 
 Route::get('/', function () {
@@ -19,18 +20,17 @@ Route::middleware(['auth'])->group(function () {
 
     // Monteur
     Route::middleware(['role:monteur'])->group(function () {
+        Route::get('/monteur-dashboard', [HomeController::class, 'monteurDashboard'])->name('monteur.dashboard');
         Route::get('/monteur-samenstelling', [VehicleAssemblyController::class, 'index'])->name('monteur-vehicle-assembly');
         Route::post('/assemble/vehicle', [VehicleAssemblyController::class, 'assembleVehicle'])->name('assemble.vehicle');
-
-
-        Route::middleware(['auth', 'role:monteur'])->get('/monteur-afgeronde-samenstelling', [VehicleAssemblyController::class, 'completedAssembly'])->name('monteur-completed-assembly');
+        Route::get('/monteur-afgeronde-samenstelling', [VehicleAssemblyController::class, 'completedAssembly'])->name('monteur-completed-assembly');
     });
 
     // Planner
     Route::middleware(['role:planner'])->group(function () {
         Route::get('/planner-dashboard', [HomeController::class, 'plannerDashboard'])->name('planner.dashboard');
         // Productionplanning
-        Route::get('/planner-productieplanning', [ProductionPlanningController::class, 'productiePlanning'])->name('planner.productiePlanning');
+        Route::get('/planner-productieplanning', [ProductionPlanningController::class, 'index'])->name('planner.productiePlanning');
         Route::post('/planner/assign/productieplanning', [ProductionPlanningController::class, 'assignVehicleProductiePlanning'])->name('planner.assignVehicleProductiePlanning');
         // Calender
         Route::get('/planner-calender', [CalenderController::class, 'index'])->name('planner.calender');
@@ -56,6 +56,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/inkoper/modules', [ModuleSummaryController::class, 'store'])->name('inkoper.module-store');
         Route::delete('inkoper/modules/{id}/softDelete', [ModuleSummaryController::class, 'softDelete'])->name('modules.softDelete');
     });
+
+    // Monteur/Inkoper
+    Route::middleware(['role:monteur,planner'])->group(function () {
+        Route::get('/module-kosten', [ModuleCostController::class, 'index'])->name('module-cost');
+    });
+    
 });
 
 Route::get('/dashboard', function () {

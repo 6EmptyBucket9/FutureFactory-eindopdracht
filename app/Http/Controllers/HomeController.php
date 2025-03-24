@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
+    public function monteurDashboard()
+    {
+        return view('monteur.dashboard');
+    }
     public function plannerDashboard()
     {
         return view('planner.dashboard');

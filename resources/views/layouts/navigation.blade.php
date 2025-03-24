@@ -25,6 +25,10 @@
                     <x-nav-link :href="route('planner.completedVehicles')" :active="request()->routeIs('planner.completedVehicles')">
                         {{ __('Overzicht van voltooide voertuigen') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('module-cost')" :active="request()->routeIs('module-cost')">
+                        {{ __('Module kosten') }}
+                    </x-nav-link>
+
                     @elseif(auth()->user() && auth()->user()->hasRole('klant'))
                     <x-nav-link :href="route('klant.dashboard')" :active="request()->routeIs('klant.dashboard')">
                         {{ __('Klanten Dashboard') }}
@@ -33,6 +37,16 @@
                         {{ __('Voortgang') }}
                     </x-nav-link>
                     
+                    @elseif(auth()->user() && auth()->user()->hasRole('monteur'))
+                    <x-nav-link :href="route('monteur.dashboard')" :active="request()->routeIs('monteur.dashboard')">
+                        {{ __('Monteurs Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('monteur-vehicle-assembly')" :active="request()->routeIs('monteur-vehicle-assembly')">
+                        {{ __('Samenstelling') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('module-cost')" :active="request()->routeIs('module-cost')">
+                        {{ __('Module kosten') }}
+                    </x-nav-link>
                     @endif
     
                 </div>

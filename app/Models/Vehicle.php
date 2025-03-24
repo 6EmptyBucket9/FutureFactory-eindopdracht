@@ -21,18 +21,20 @@ class Vehicle extends Model
     }
     public function isComplete()
     {
-    
+
         if ($this->planning->isEmpty()) {
-            return false; 
+            return false;
         }
         return $this->planning->every(function ($planning) {
-            return $planning->is_completed; 
+            return $planning->is_completed;
         });
     }
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
-    
+    public function robot()
+    {
+        return $this->belongsTo(Robot::class);
+    }
 }
