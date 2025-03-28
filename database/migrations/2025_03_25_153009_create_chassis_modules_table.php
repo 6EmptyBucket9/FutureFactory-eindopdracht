@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicles', function (Blueprint $table) {
+        Schema::create('chassis_module', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('wheels_count'); 
             $table->foreignIdFor(App\Models\VehicleType::class);
+            $table->integer('length'); 
+            $table->integer('width'); 
+            $table->integer('height');
+            $table->decimal('cost', 8, 2); 
+            $table->string('name')->unique(); 
+            $table->string('image')->nullable(); 
             $table->timestamps();
         });
     }
@@ -24,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicles');
+        Schema::dropIfExists('chassis_module');
     }
 };

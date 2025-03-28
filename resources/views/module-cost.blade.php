@@ -27,7 +27,7 @@
                                     @foreach ($modules as $module)
                                         <tr class="border-b hover:bg-gray-50">
                                             <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ $module->name }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-600">{{ number_format($module->costs, 2, ',', '.') }}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-600">{{ number_format($module->cost, 2, ',', '.') }}</td>
                                             <td class="px-6 py-4">
                                                 <input type="checkbox" name="modules[]" value="{{ $module->id }}" class="module-checkbox">
                                             </td>

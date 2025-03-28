@@ -26,23 +26,61 @@
                             <p class="text-sm font-medium mt-2">
                                 <strong>Status:</strong>
                                 <span class="text-gray-600">
-                                    {{ ucfirst($vehicle->status) }}
+                                    {{ ucfirst($vehicle->vehicleStatus->name) }}
                                 </span>
                             </p>
 
                             <p>Geplande opleverdatum: {{ $vehicle->expected_completion_date }}</p>
-                            <p>Voltooide Datum: {{ $vehicle->completion_date ? $vehicle->completion_date : 'Nog niet gecompleteerd' }}</p>
-                            
-                            <!-- Show vehicle planning details -->
+                            <p>Voltooide Datum:
+                                {{ $vehicle->completion_date ? $vehicle->completion_date : 'Nog niet gecompleteerd' }}
+                            </p>
+
+                            <!-- Show vehicle modules and their installation status -->
                             <ul>
-                                @foreach ($vehicle->planning as $planning)
-                                    <li>
-                                        <span>
-                                            {{ $planning->module ? $planning->module->name : 'Onbekende module' }} - 
-                                            {{ $planning->is_completed ? 'Voltooid' : 'Nog te doen' }}
-                                        </span>
-                                    </li>
-                                @endforeach
+                                <li>
+                                    <strong>Chassis:</strong>
+                                    @if ($vehicle->chassis_installed)
+                                        {{ $vehicle->chassisModule->name }} - Geïnstalleerd
+                                    @else
+                                        <em>Geen chassis module geïnstalleerd</em>
+                                    @endif
+                                </li>
+
+                                <li>
+                                    <strong>Aandrijfas:</strong>
+                                    @if ($vehicle->drivetrain_installed)
+                                        {{ $vehicle->drivetrainModule->name }} - Geïnstalleerd
+                                    @else
+                                        <em>Geen drivetrain module geïnstalleerd</em>
+                                    @endif
+                                </li>
+
+                                <li>
+                                    <strong>Wielen:</strong>
+                                    @if ($vehicle->wheels_installed)
+                                        {{ $vehicle->wheelModule->name }} - Geïnstalleerd
+                                    @else
+                                        <em>Geen wiel module geïnstalleerd</em>
+                                    @endif
+                                </li>
+
+                                <li>
+                                    <strong>Stuur:</strong>
+                                    @if ($vehicle->steering_installed)
+                                        {{ $vehicle->steeringModule->name }} - Geïnstalleerd
+                                    @else
+                                        <em>Geen stuur module geïnstalleerd</em>
+                                    @endif
+                                </li>
+
+                                <li>
+                                    <strong>Stoelen:</strong>
+                                    @if ($vehicle->seats_installed)
+                                        {{ $vehicle->seatModule->name }} - Geïnstalleerd
+                                    @else
+                                        <em>Geen stoel module geïnstalleerd</em>
+                                    @endif
+                                </li>
                             </ul>
                         </div>
                     @endforeach

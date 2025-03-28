@@ -12,13 +12,13 @@
 
                     <!-- Flash messages -->
                     @if (session('success'))
-                        <div class="bg-green-500 text-green p-4 rounded-md shadow-md">
+                        <div>
                             {{ session('success') }}
                         </div>
                     @endif
 
                     @if (session('error'))
-                        <div class="bg-red-500 text-red p-4 rounded-md shadow-md">
+                        <div>
                             {{ session('error') }}
                         </div>
                     @endif
@@ -39,14 +39,16 @@
                             <tbody>
                                 @foreach ($vehicles as $vehicle)
                                     <tr class="border-b hover:bg-gray-50">
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ $vehicle->name }}</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ $vehicle->name }}
+                                        </td>
 
                                         <!-- Planning details -->
                                         <td class="px-6 py-4 text-sm text-gray-600">
                                             @if ($vehicle->planning->isNotEmpty())
                                                 <ul class="pl-6 space-y-2">
                                                     @foreach ($vehicle->planning as $planning)
-                                                        <li>{{ $planning->date }} - Tijdslot: {{ $planning->timeslot }}</li>
+                                                        <li>{{ $planning->date }} - Tijdslot: {{ $planning->timeslot }}
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             @else
@@ -56,33 +58,58 @@
 
                                         <!-- Modules details -->
                                         <td class="px-6 py-4 text-sm text-gray-600">
-                                            @if ($vehicle->modules->isNotEmpty())
-                                                <ul class="pl-6 space-y-2">
-                                                    @foreach ($vehicle->modules as $module)
-                                                        <li>{{ $module->name }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            @else
-                                                <em class="text-gray-500">Geen modules gekoppeld</em>
-                                            @endif
+                                            <ul class="pl-6 space-y-2">
+                                                @if ($vehicle->chassisModule)
+                                                    <li>{{ $vehicle->chassisModule->name }}</li>
+                                                @else
+                                                    <em class="text-gray-500">Geen chassis module gekoppeld</em>
+                                                @endif
+
+                                                @if ($vehicle->drivetrainModule)
+                                                    <li>{{ $vehicle->drivetrainModule->name }}</li>
+                                                @else
+                                                    <em class="text-gray-500">Geen drivetrain module gekoppeld</em>
+                                                @endif
+
+                                                @if ($vehicle->wheelModule)
+                                                    <li>{{ $vehicle->wheelModule->name }}</li>
+                                                @else
+                                                    <em class="text-gray-500">Geen wiel module gekoppeld</em>
+                                                @endif
+
+                                                @if ($vehicle->steeringModule)
+                                                    <li>{{ $vehicle->steeringModule->name }}</li>
+                                                @else
+                                                    <em class="text-gray-500">Geen stuur module gekoppeld</em>
+                                                @endif
+
+                                                @if ($vehicle->seatModule)
+                                                    <li>{{ $vehicle->seatModule->name }}</li>
+                                                @else
+                                                    <em class="text-gray-500">Geen stoel module gekoppeld</em>
+                                                @endif
+                                            </ul>
                                         </td>
 
                                         <!-- Robot dropdown and form -->
                                         <td class="px-6 py-4 text-sm text-gray-600">
-                                            <form action="{{ route('planner.assignVehicleProductiePlanning') }}" method="POST">
+                                            <form action="{{ route('planner.assignVehicleProductiePlanning') }}"
+                                                method="POST">
                                                 @csrf
                                                 <input type="hidden" name="vehicle_id" value="{{ $vehicle->id }}">
 
                                                 <!-- Robot selection -->
-                                                <label for="robot_id" class="block text-sm font-medium text-gray-700">Kies Robot</label>
+                                                <label for="robot_id"
+                                                    class="block text-sm font-medium text-gray-700">Kies Robot</label>
                                                 <select name="robot_id" id="robot_id" class="block w-full mt-1">
-                                                    @foreach($robots as $robot)
-                                                        <option value="{{ $robot->id }}">{{ $robot->name }}</option>
+                                                    @foreach ($robots as $robot)
+                                                        <option value="{{ $robot->id }}">{{ $robot->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                         </td>
 
-                                        <!-- Submit button in the Acties column -->
+
                                         <td class="px-6 py-4 text-sm text-gray-600">
                                             <button type="submit">
                                                 Voeg toe aan productieplanning
@@ -102,23 +129,50 @@
                             <table class="min-w-full table-auto border-collapse">
                                 <thead>
                                     <tr class="bg-gray-100 text-left">
-                                        <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Planning ID</th>
+                                        <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Planning ID
+                                        </th>
                                         <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Voertuig</th>
                                         <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Modules</th>
                                         <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Robot</th>
-                                        <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Planning Details</th>
+                                        <th class="px-6 py-3 text-sm font-medium text-gray-700 uppercase">Planning
+                                            Details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($productiePlannings as $productiePlanning)
                                         <tr class="border-b hover:bg-gray-50">
-                                            <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ $productiePlanning->id }}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-600">{{ $productiePlanning->vehicle->name }}</td>
+                                            <td class="px-6 py-4 text-sm font-medium text-gray-800">
+                                                {{ $productiePlanning->id }}
+                                            </td>
 
                                             <td class="px-6 py-4 text-sm text-gray-600">
-                                                @foreach ($productiePlanning->vehicle->modules as $module)
-                                                    <div>{{ $module->name }}</div>
-                                                @endforeach
+                                                @if ($productiePlanning->vehicle)
+                                                    {{ $productiePlanning->vehicle->name }}
+                                                @else
+                                                    <em class="text-gray-500">Geen voertuig gevonden</em>
+                                                @endif
+                                            </td>
+
+                                            <td class="px-6 py-4 text-sm text-gray-600">
+                                                @if ($productiePlanning->vehicle)
+                                                    <div>
+                                                        {{ $productiePlanning->vehicle->chassisModule ? $productiePlanning->vehicle->chassisModule->name : 'Geen chassis module gekoppeld' }}
+                                                    </div>
+                                                    <div>
+                                                        {{ $productiePlanning->vehicle->drivetrainModule ? $productiePlanning->vehicle->drivetrainModule->name : 'Geen drivetrain module gekoppeld' }}
+                                                    </div>
+                                                    <div>
+                                                        {{ $productiePlanning->vehicle->wheelModule ? $productiePlanning->vehicle->wheelModule->name : 'Geen wiel module gekoppeld' }}
+                                                    </div>
+                                                    <div>
+                                                        {{ $productiePlanning->vehicle->steeringModule ? $productiePlanning->vehicle->steeringModule->name : 'Geen stuur module gekoppeld' }}
+                                                    </div>
+                                                    <div>
+                                                        {{ $productiePlanning->vehicle->seatModule ? $productiePlanning->vehicle->seatModule->name : 'Geen stoel module gekoppeld' }}
+                                                    </div>
+                                                @else
+                                                    <em class="text-gray-500">Geen modules beschikbaar</em>
+                                                @endif
                                             </td>
 
                                             <td class="px-6 py-4 text-sm text-gray-600">
@@ -130,12 +184,18 @@
                                             </td>
 
                                             <td class="px-6 py-4 text-sm text-gray-600">
-                                                @foreach ($productiePlanning->vehicle->planning as $planning)
-                                                    <div>{{ $planning->date }} - Tijdslot: {{ $planning->timeslot }}</div>
-                                                @endforeach
+                                                @if ($productiePlanning->vehicle)
+                                                    @foreach ($productiePlanning->vehicle->planning as $planning)
+                                                        <div>{{ $planning->date }} - Tijdslot:
+                                                            {{ $planning->timeslot }}</div>
+                                                    @endforeach
+                                                @else
+                                                    <em class="text-gray-500">Geen planning beschikbaar</em>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
+
                                 </tbody>
                             </table>
                         @else

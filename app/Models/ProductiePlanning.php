@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductiePlanning extends Model
 {
+    protected $table = 'productie_planning';
     protected $fillable = [
         'vehicle_id',
         'robot_id'

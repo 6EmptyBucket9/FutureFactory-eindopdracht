@@ -10,34 +10,57 @@
             <form action="{{ route('assemble.vehicle') }}" method="POST">
                 @csrf
 
+                <!-- Naam van het voertuig -->
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Voertuignaam</label>
+                    <input type="text" name="name" id="name" class="border p-2 w-full" required>
+                </div>
+                {{-- Type van het voertuig --}}
+                <div class="mb-4">
+                    <label for="vehicle_type_id" class="block text-sm font-medium text-gray-700">Kies
+                        Voertuigtype</label>
+                    <select name="vehicle_type_id" id="vehicle_type_id" class="block w-full mt-1">
+                        <option value="">Kies een voertuigtype...</option>
+                        @foreach ($vehicleTypes as $vehicleType)
+                            <option value="{{ $vehicleType->id }}">{{ $vehicleType->type }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                {{-- Voertuig voor klant --}}
+
+                <div class="mb-4">
+                    <label for="user" class="block text-sm font-medium text-gray-700">Klant</label>
+                    <select name="user_id" id="user" class="block w-full mt-1">
+                        <option value="">Kies een klant...</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">
+                                {{ $user->name }} ({{ $user->email }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+
                 <!-- Chassis Dropdown -->
                 <div class="mb-4">
                     <label for="chassis" class="block text-sm font-medium text-gray-700">Kies Chassis</label>
                     <select name="chassis" id="chassis" class="block w-full mt-1">
                         <option value="">Kies een chassis...</option>
-                        @foreach ($modules as $module)
-                            @if ($module->module_type == 'chassis')
-                                <option value="{{ $module->id }}">
-                                    {{ $module->name }} - €{{ number_format($module->costs, 2) }} 
-                                    (Wielen: {{ $module->amount_of_wheels }} - Afmetingen: {{ $module->dimensions }})
-                                </option>
-                            @endif
+                        @foreach ($chassisModules as $module)
+                            <option value="{{ $module->id }}">{{ $module->name }} -
+                                €{{ number_format($module->costs, 2) }}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <!-- Drivetrain Dropdown -->
+                <!-- Aandrijving Dropdown -->
                 <div class="mb-4">
                     <label for="drivetrain" class="block text-sm font-medium text-gray-700">Kies Aandrijving</label>
                     <select name="drivetrain" id="drivetrain" class="block w-full mt-1">
                         <option value="">Kies een aandrijving...</option>
-                        @foreach ($modules as $module)
-                            @if ($module->module_type == 'drivetrain')
-                                <option value="{{ $module->id }}">
-                                    {{ $module->name }} - €{{ number_format($module->costs, 2) }} 
-                                    (Soort: {{ $module->drivetrain_type }} - Vermogen: {{ $module->horsepower }} pk)
-                                </option>
-                            @endif
+                        @foreach ($drivetrainModules as $module)
+                            <option value="{{ $module->id }}">{{ $module->name }} -
+                                €{{ number_format($module->costs, 2) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -47,13 +70,9 @@
                     <label for="wheels" class="block text-sm font-medium text-gray-700">Kies Wielen</label>
                     <select name="wheels" id="wheels" class="block w-full mt-1">
                         <option value="">Kies een wiel...</option>
-                        @foreach ($modules as $module)
-                            @if ($module->module_type == 'wheels')
-                                <option value="{{ $module->id }}">
-                                    {{ $module->name }} - €{{ number_format($module->costs, 2) }} 
-                                    (Type: {{ $module->tire_type }} - Diameter: {{ $module->tire_diameter }} inch)
-                                </option>
-                            @endif
+                        @foreach ($wheelModules as $module)
+                            <option value="{{ $module->id }}">{{ $module->name }} -
+                                €{{ number_format($module->costs, 2) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -63,13 +82,9 @@
                     <label for="steering" class="block text-sm font-medium text-gray-700">Kies Stuur</label>
                     <select name="steering" id="steering" class="block w-full mt-1">
                         <option value="">Kies een stuur...</option>
-                        @foreach ($modules as $module)
-                            @if ($module->module_type == 'steering')
-                                <option value="{{ $module->id }}">
-                                    {{ $module->name }} - €{{ number_format($module->costs, 2) }} 
-                                    (Vorm: {{ $module->steering_shape }} - Modificatie: {{ $module->special_modifications }})
-                                </option>
-                            @endif
+                        @foreach ($steeringModules as $module)
+                            <option value="{{ $module->id }}">{{ $module->name }} -
+                                €{{ number_format($module->costs, 2) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -79,18 +94,14 @@
                     <label for="seats" class="block text-sm font-medium text-gray-700">Kies Stoelen</label>
                     <select name="seats" id="seats" class="block w-full mt-1">
                         <option value="">Kies een stoel...</option>
-                        @foreach ($modules as $module)
-                            @if ($module->module_type == 'seats')
-                                <option value="{{ $module->id }}">
-                                    {{ $module->name }} - €{{ number_format($module->costs, 2) }} 
-                                    (Aantal: {{ $module->number_of_seats }} - Bekleding: {{ $module->upholstery }})
-                                </option>
-                            @endif
+                        @foreach ($seatModules as $module)
+                            <option value="{{ $module->id }}">{{ $module->name }} -
+                                €{{ number_format($module->costs, 2) }}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <button type="submit" class="mt-4 btn btn-primary">Assemble Vehicle</button>
+                <button type="submit" class="mt-4 btn btn-primary">Assembleer Voertuig</button>
             </form>
         </div>
     </div>

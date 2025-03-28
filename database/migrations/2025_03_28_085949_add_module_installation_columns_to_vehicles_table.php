@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vehicles', function (Blueprint $table) {
-            $table->enum('status', ['in productie', 'gereed voor levering', 'geleverd'])->default('in productie');
+            $table->boolean('chassis_installed')->default(false);
+            $table->boolean('drivetrain_installed')->default(false);
+            $table->boolean('wheels_installed')->default(false);
+            $table->boolean('steering_installed')->default(false);
+            $table->boolean('seats_installed')->default(false);
         });
     }
 
@@ -22,7 +26,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropColumn('status');
+            //
         });
     }
 };

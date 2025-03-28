@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plannings', function (Blueprint $table) {
+        Schema::create('steering_module', function (Blueprint $table) {
             $table->id();
-            $table->date('date'); // Date
-            $table->string('timeslot'); // Timeslot for date
-            $table->foreignId('vehicle_id')->nullable()->constrained()->onDelete('cascade'); // Forgein key for vehicle can be null with oncascade  delete constraint
+            $table->string('special_adjustments')->nullable();
+            $table->string('shape'); 
+            $table->integer('assembly_time');
+            $table->decimal('cost', 8, 2); 
+            $table->string('name')->unique();
+            $table->string('image')->nullable(); 
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plannings');
+        Schema::dropIfExists('steering_module');
     }
 };

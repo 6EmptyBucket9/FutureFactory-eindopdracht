@@ -6,90 +6,135 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Planning;
 use App\Models\Vehicle;
-use App\Models\Module; // Assuming you have a Module model
+
 
 class CalenderController extends Controller
 {
     public function index()
     {
-        // Get today's date
-        $currentDate = Carbon::now();
 
-        // Get the next 5 working days
+
+        // Haal de voertuigen op voor de dropdown
+        $vehicles = Vehicle::all();
+
+        // Haal de planningen op
+        $currentDate = Carbon::now();
         $plannings = Planning::where('date', '>=', $currentDate->format('Y-m-d'))
             ->orderBy('date', 'asc')
             ->get()
             ->groupBy('date');
 
-        // Get all vehicles for dropdown selection
-        $vehicles = Vehicle::all();
-
-        // Format data for the view
-        $weekDays = [];
-        foreach ($plannings as $date => $timeslots) {
-            $carbonDate = Carbon::parse($date);
-            $weekDays[] = [
-                'day' => $carbonDate->format('D'), // Format carbon to day
-                'date' => $date,
-                'isWeekend' => $carbonDate->isWeekend(), // Check if it's a weekend
-                'timeslots' => $carbonDate->isWeekend() ? [] : $timeslots, // Only show timeslots on weekdays
-                // Retrieve assigned vehicles for the timeslots
-                'assignedVehicles' => $timeslots->keyBy('timeslot')->map(function ($planning) {
-                    return $planning->vehicle_id;
-                }),
-                // Retrieve assigned modules for the timeslots (if any)
-                'assignedModules' => $timeslots->keyBy('timeslot')->map(function ($planning) {
-                    return $planning->module_id;
-                }),
-            ];
-        }
+        // Formatteer de planningsdata
+        $weekDays = $this->formatPlanningData($plannings);
 
         return view('planner.calender', compact('weekDays', 'vehicles'));
     }
 
     public function assignVehicle(Request $request)
     {
-        // Validate the input
         $request->validate([
-            'date' => 'required|date',
-            'timeslot' => 'required|string',
-            'vehicle_id' => 'nullable|exists:vehicles,id', // Vehicle can be null
+            'vehicle_id' => 'nullable|exists:vehicles,id',
         ]);
 
-        // Find specific planning
-        $planning = Planning::where('date', $request->date)
-            ->where('timeslot', $request->timeslot)
-            ->first();
+        $planning = $this->findPlanning($request);
 
         if ($planning) {
-            $planning->vehicle_id = $request->vehicle_id ?: null; // If no vehicle selected, set to null
+            if ($planning->vehicle_id) {
+                return redirect()->back()->with('error', 'Er is al een voertuig toegewezen.');
+            }
+
+            $planning->vehicle_id = $request->vehicle_id ?: null;
             $planning->save();
         }
 
-        return redirect()->back()->with('success', 'Vehicle assigned successfully.');
+        return redirect()->back()->with('success', 'Voertuig succesvol toegewezen.');
     }
 
     public function assignModule(Request $request)
     {
-        // Validate the input
         $request->validate([
+            'module_type' => 'required',
             'date' => 'required|date',
-            'timeslot' => 'required|string',
-            'vehicle_id' => 'required|exists:vehicles,id',
-            'module_id' => 'required|exists:modules,id',
+            'timeslot' => 'required',
         ]);
 
-        // Find the specific planning for the given date and timeslot
-        $planning = Planning::where('date', $request->date)
-            ->where('timeslot', $request->timeslot)
-            ->first();
+        list($moduleType, $moduleId) = explode(',', $request->module_type);
 
-        if ($planning) {
-            // Assign the selected module to the planning
-            $planning->module_id = $request->module_id;
-            $planning->save();
+        $columnMap = [
+            'chassis' => 'chassis_module_id',
+            'drivetrain' => 'drivetrain_module_id',
+            'wheels' => 'wheel_module_id',
+            'steering' => 'steering_module_id',
+            'seats' => 'seat_module_id',
+        ];
+        $planning = $this->findPlanning($request);
+        if (!isset($columnMap[$moduleType])) {
+            return redirect()->back()->with('error', 'Ongeldig module-type.');
         }
 
-        return redirect()->back()->with('success', 'Module assigned successfully.');
+        if ($planning) {
+            $column = $columnMap[$moduleType];
+            $planning->$column = $moduleId;
+            $planning->save();
+
+            return redirect()->back()->with('success', 'Module succesvol toegewezen.');
+        }
+    }
+
+
+    private function findPlanning(Request $request)
+    {
+        return Planning::where('date', $request->date)
+            ->where('timeslot', $request->timeslot)
+            ->first();
+    }
+    private function formatPlanningData($plannings)
+    {
+        return $plannings->map(function ($timeslots, $date) {
+            $carbonDate = Carbon::parse($date);
+
+            return [
+                'day' => $carbonDate->format('D'),
+                'date' => $date,
+                'isWeekend' => $carbonDate->isWeekend(),
+                'timeslots' => $carbonDate->isWeekend() ? [] : $timeslots,
+                'assignedVehicles' => $this->getAssignedVehicle($timeslots),
+                'assignedModules' => $this->getAssignedModules($timeslots)
+            ];
+        });
+    }
+
+    private function getAssignedVehicle($timeslots)
+    {
+        $assignedItems = [];
+
+        foreach ($timeslots as $timeslot) {
+            // Check if a vehicle is assigned to this timeslot
+            if ($timeslot->vehicle_id) {
+                $assignedItems[$timeslot->timeslot] = $timeslot->vehicle_id;
+            }
+        }
+
+        return $assignedItems;
+    }
+    private function getAssignedModules($timeslots)
+    {
+        $assignedModules = [];
+
+        foreach ($timeslots as $timeslot) {
+            if ($timeslot->chassis_module_id) {
+                $assignedModules[$timeslot->timeslot] = 'chassis';
+            } elseif ($timeslot->drivetrain_module_id) {
+                $assignedModules[$timeslot->timeslot] = 'drivetrain';
+            } elseif ($timeslot->wheel_module_id) {
+                $assignedModules[$timeslot->timeslot] = 'wheels';
+            } elseif ($timeslot->steering_module_id) {
+                $assignedModules[$timeslot->timeslot] = 'steering';
+            } elseif ($timeslot->seat_module_id) {
+                $assignedModules[$timeslot->timeslot] = 'seats';
+            }
+        }
+
+        return $assignedModules;
     }
 }

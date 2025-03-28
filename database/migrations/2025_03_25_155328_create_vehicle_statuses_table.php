@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('modules', function (Blueprint $table) {
-            $table->dropColumn('is_completed'); // Remove is_completed from modules
+        Schema::create('vehicle_status', function (Blueprint $table) {
+            $table->id();
+            $table->enum('status', ['in productie', 'gereed voor levering', 'geleverd'])->default('in productie');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('modules', function (Blueprint $table) {
-            $table->boolean('is_completed')->default(false); // Add is_completed back in case of rollback
-        });
+        Schema::dropIfExists('vehicle_status');
     }
 };

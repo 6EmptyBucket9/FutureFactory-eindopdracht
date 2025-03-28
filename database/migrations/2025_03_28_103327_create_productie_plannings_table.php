@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('modules', function (Blueprint $table) {
-            $table->softDeletes(); // Dit voegt de 'deleted_at' kolom toe
+        Schema::create('productie_planning', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('vehicle_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('modules', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('productie_planning');
     }
 };

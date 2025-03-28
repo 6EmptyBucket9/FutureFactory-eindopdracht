@@ -10,9 +10,9 @@ class KlantVoortgangController extends Controller
 {
     public function index()
     {
-        $user = Auth::user(); // Get the authenticated user
-        $vehicles = $user->vehicles; // Get all vehicles for this user
-    
+
+        $user = Auth::user();
+        $vehicles = Vehicle::where('user_id', $user->id)->get();
         return view('klant.voortgang', compact('vehicles'));
     }
 }

@@ -23,14 +23,45 @@
                             </h4>
                             <p>Voltooide Datum: {{ $vehicle->completion_date ? $vehicle->completion_date : 'Nog niet gecompleteerd' }}</p>
                             <ul>
-                                @foreach ($vehicle->planning as $planning)
-                                    <li>
-                                        <span>
-                                            {{ $planning->module ? $planning->module->name : 'Onbekende module' }} - 
-                                            {{ $planning->is_completed ? 'Voltooid' : 'Nog te doen' }}
-                                        </span>
-                                    </li>
-                                @endforeach
+                                <!-- Chassis module -->
+                                <li>
+                                    <span>
+                                        {{ $vehicle->chassisModule ? $vehicle->chassisModule->name : 'Geen chassis module gekoppeld' }} - 
+                                        {{ $vehicle->chassis_installed ? 'Voltooid' : 'Nog te doen' }}
+                                    </span>
+                                </li>
+
+                                <!-- Drivetrain module -->
+                                <li>
+                                    <span>
+                                        {{ $vehicle->drivetrainModule ? $vehicle->drivetrainModule->name : 'Geen drivetrain module gekoppeld' }} - 
+                                        {{ $vehicle->drivetrain_installed ? 'Voltooid' : 'Nog te doen' }}
+                                    </span>
+                                </li>
+
+                                <!-- Wheel module -->
+                                <li>
+                                    <span>
+                                        {{ $vehicle->wheelModule ? $vehicle->wheelModule->name : 'Geen wiel module gekoppeld' }} - 
+                                        {{ $vehicle->wheels_installed ? 'Voltooid' : 'Nog te doen' }}
+                                    </span>
+                                </li>
+
+                                <!-- Steering module -->
+                                <li>
+                                    <span>
+                                        {{ $vehicle->steeringModule ? $vehicle->steeringModule->name : 'Geen stuur module gekoppeld' }} - 
+                                        {{ $vehicle->steering_installed ? 'Voltooid' : 'Nog te doen' }}
+                                    </span>
+                                </li>
+
+                                <!-- Seat module -->
+                                <li>
+                                    <span>
+                                        {{ $vehicle->seatModule ? $vehicle->seatModule->name : 'Geen stoel module gekoppeld' }} - 
+                                        {{ $vehicle->seats_installed ? 'Voltooid' : 'Nog te doen' }}
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                     @endforeach

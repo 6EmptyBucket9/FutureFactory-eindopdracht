@@ -28,7 +28,6 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'), 
             'role' => $this->faker->randomElement(['planner', 'monteur', 'inkoper', 'klant']),
-            'vehicle_id' => Vehicle::inRandomOrder()->first()?->id,
         ];
     }
 
