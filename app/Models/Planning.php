@@ -8,9 +8,12 @@ use App\Models\WheelModule;
 use App\Models\ChassisModule;
 use App\Models\SteeringModule;
 use App\Models\SeatModule;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Planning extends Model
 {
+    use HasFactory;
+    
     protected $table = 'planning'; 
     protected $fillable = [
         'date',

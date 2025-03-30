@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
+use App\Models\VehicleStatus;
 
 class MountModuleController extends Controller
 {
@@ -69,12 +70,20 @@ class MountModuleController extends Controller
 
         // Check if all modules are completed and update vehicle status
         if ($vehicle->chassis_installed && $vehicle->drivetrain_installed && $vehicle->wheels_installed && $vehicle->steering_installed && $vehicle->seats_installed) {
-            $vehicle->status_id = 2;
-            $vehicle->completion_date = now();
-            $vehicle->save();
 
-            // Flash success message
-            return redirect()->route('monteur.mount-module-list', $vehicle->id)->with('success', 'Alle modules zijn gemonteerd! Voertuig is voltooid.');
+            // Fetch the status "gereed voor levering" from the VehicleStatus table
+            $completedStatus = VehicleStatus::where('status', 'gereed voor levering')->first();
+
+            if ($completedStatus) {
+                $vehicle->status_id = $completedStatus->id; 
+                $vehicle->completion_date = now()->toDateString(); 
+                $vehicle->save();
+
+                // Flash success message
+                return redirect()->route('monteur.mount-module-list', $vehicle->id)->with('success', 'Alle modules zijn gemonteerd! Voertuig is voltooid.');
+            } else {
+                return redirect()->back()->with('error', 'Voltooide status niet gevonden.');
+            }
         }
 
         // Flash message for module mounted successfully

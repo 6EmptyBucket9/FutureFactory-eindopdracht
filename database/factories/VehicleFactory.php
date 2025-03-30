@@ -28,12 +28,13 @@ class VehicleFactory extends Factory
     public function definition(): array
     {
         $vehicleType = VehicleType::inRandomOrder()->first();
+        $status = VehicleStatus::inRandomOrder()->first();
         $user = User::where('role', 'klant')->inRandomOrder()->first() ?: User::factory()->create(['role' => 'klant']);
         return [
             'name' => $this->faker->company,
             'vehicle_type_id' => $vehicleType->id,
             'user_id' => $user->id,
-            'status_id' => 1, // Assuming status_id 1 is the default "in productie"
+            'status_id' => $status->id,
             'expected_completion_date' => Carbon::now()->addDays(rand(10, 60)),
             'completion_date' => Carbon::now()->addDays(rand(61, 120)),
             'chassis_module_id' => ChassisModule::inRandomOrder()->first()?->id ?? ChassisModule::factory(),
