@@ -13,17 +13,24 @@
 
 
                     <h3 class="text-lg font-semibold mb-4 text-black">Module Lijst</h3>
-                    <div class="mb-6">
-                        <a href="{{ route('inkoper.chassis.create') }}">Nieuwe Chassis Module Aanmaken</a>
-                        <a href="{{ route('inkoper.drivetrain.create') }}">Nieuwe Drivetrain
-                            Module Aanmaken</a>
-                        <a href="{{ route('inkoper.wheel.create') }}">Nieuwe Wheel
-                            Module Aanmaken</a>
-                        <a href="{{ route('inkoper.steering.create') }}">Nieuwe Steering
-                            Module Aanmaken</a>
-                        <a href="{{ route('inkoper.seat.create') }}">Nieuwe Seat Module
-                            Aanmaken</a>
+                    <div class="mb-6 flex flex-wrap gap-4">
+                        <a href="{{ route('inkoper.chassis.create') }}" class="mr-4 px-4 py-2 bg-green-500 text-white border border-green-600 rounded-lg hover:bg-green-600 hover:border-green-700 text-sm">
+                            Nieuwe Chassis Module Aanmaken
+                        </a>
+                        <a href="{{ route('inkoper.drivetrain.create') }}" class="px-4 py-2 bg-green-500 text-white border border-green-600 rounded-lg hover:bg-green-600 hover:border-green-700 text-sm">
+                            Nieuwe Drivetrain Module Aanmaken
+                        </a>
+                        <a href="{{ route('inkoper.wheel.create') }}" class="px-4 py-2 bg-green-500 text-white border border-green-600 rounded-lg hover:bg-green-600 hover:border-green-700 text-sm">
+                            Nieuwe Wheel Module Aanmaken
+                        </a>
+                        <a href="{{ route('inkoper.steering.create') }}" class="px-4 py-2 bg-green-500 text-white border border-green-600 rounded-lg hover:bg-green-600 hover:border-green-700 text-sm">
+                            Nieuwe Steering Module Aanmaken
+                        </a>
+                        <a href="{{ route('inkoper.seat.create') }}" class="px-4 py-2 bg-green-500 text-white border border-green-600 rounded-lg hover:bg-green-600 hover:border-green-700 text-sm">
+                            Nieuwe Seat Module Aanmaken
+                        </a>
                     </div>
+                    
                     <!-- Chassis Modules -->
                     <h4 class="font-semibold mb-2 text-black">Chassis Modules</h4>
                     <div class="overflow-x-auto">

@@ -88,7 +88,7 @@ class CalenderController extends Controller
             ->where('timeslot', $request->timeslot)
             ->first();
     }
-    private function formatPlanningData($plannings)
+    public function formatPlanningData($plannings)
     {
         return $plannings->map(function ($timeslots, $date) {
             $carbonDate = Carbon::parse($date);
@@ -117,6 +117,7 @@ class CalenderController extends Controller
 
         return $assignedItems;
     }
+
     private function getAssignedModules($timeslots)
     {
         $assignedModules = [];

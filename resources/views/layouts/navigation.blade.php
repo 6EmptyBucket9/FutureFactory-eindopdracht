@@ -47,6 +47,13 @@
                         <x-nav-link :href="route('monteur.vehicle-configuration')" :active="request()->routeIs('monteur.vehicle-configuration')">
                             {{ __('Voertuig configuratie') }}
                         </x-nav-link>
+                    @elseif(auth()->user() && auth()->user()->hasRole('inkoper'))
+                        <x-nav-link :href="route('inkoper.dashboard')" :active="request()->routeIs('inkoper.dashboard')">
+                            {{ __('Inkopers Dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('inkoper.module-summary')" :active="request()->routeIs('inkoper.module-summary')">
+                            {{ __('Module overzicht') }}
+                        </x-nav-link>
                     @endif
 
                 </div>
