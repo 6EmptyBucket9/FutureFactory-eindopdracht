@@ -48,7 +48,7 @@
                             @endif
                         </div>
 
-                        <button type="submit">Bewerk Module</button>
+                        <x-submit-button>Bewerk module</x-submit-button>
                     </form>
                 </div>
             </div>

@@ -8,6 +8,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href='/'> <img src="{{ asset('logo/herd.png') }}" alt="FutureFactory Logo" class="h-16 w-auto"></x-nav-link>
                     @if (auth()->user() && auth()->user()->hasRole('planner'))
                         <x-nav-link :href="route('planner.dashboard')" :active="request()->routeIs('planner.dashboard')">
                             {{ __('Planner Dashboard') }}

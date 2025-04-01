@@ -101,7 +101,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="mt-4 btn btn-primary">Assembleer Voertuig</button>
+                <x-submit-button>Assembleer voertuig</x-submit-button>
             </form>
         </div>
     </div>

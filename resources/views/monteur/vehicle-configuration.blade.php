@@ -117,7 +117,7 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Voertuig samenstellen</button>
+                        <x-submit-button>Configureer</x-submit-button>
                     </form>
                 </div>
             </div>

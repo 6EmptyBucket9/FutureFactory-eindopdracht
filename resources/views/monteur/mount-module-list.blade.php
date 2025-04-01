@@ -40,9 +40,8 @@
                 @else
                     <form action="{{ route('mount.module', [$vehicle->id, 'chassis']) }}" method="POST">
                         @csrf
-                        <button type="submit">
-                            Monteer
-                        </button>
+                        <x-submit-button>Monteer</x-submit-button>
+
                     </form>
                 @endif
             </li>
@@ -58,9 +57,8 @@
                 @else
                     <form action="{{ route('mount.module', [$vehicle->id, 'drivetrain']) }}" method="POST">
                         @csrf
-                        <button type="submit">
-                            Monteer
-                        </button>
+                        <x-submit-button>Monteer</x-submit-button>
+
                     </form>
                 @endif
             </li>
@@ -76,9 +74,8 @@
                 @else
                     <form action="{{ route('mount.module', [$vehicle->id, 'wheels']) }}" method="POST">
                         @csrf
-                        <button type="submit">
-                            Monteer
-                        </button>
+                        <x-submit-button>Monteer</x-submit-button>
+
                     </form>
                 @endif
             </li>
@@ -94,9 +91,8 @@
                 @else
                     <form action="{{ route('mount.module', [$vehicle->id, 'steering']) }}" method="POST">
                         @csrf
-                        <button type="submit">
-                            Monteer
-                        </button>
+                        <x-submit-button>Monteer</x-submit-button>
+
                     </form>
                 @endif
             </li>
@@ -112,9 +108,8 @@
                 @else
                     <form action="{{ route('mount.module', [$vehicle->id, 'seats']) }}" method="POST">
                         @csrf
-                        <button type="submit">
-                            Monteer
-                        </button>
+                        <x-submit-button>Monteer</x-submit-button>
+
                     </form>
                 @endif
             </li>

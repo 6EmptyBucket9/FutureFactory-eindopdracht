@@ -12,12 +12,12 @@
             <p class="mt-4">Er zijn momenteel geen voertuigen in productie.</p>
         @else
             <ul class="mt-4">
-                @foreach($vehicles as $vehicle)
+                @foreach ($vehicles as $vehicle)
                     <li class="border p-4 mb-2">
                         <span>{{ $vehicle->name }}</span>
-                        <a href="{{ route('monteur.mount-module-list', $vehicle->id) }}">
-                            Monteer Modules
-                        </a>
+                        <x-link-button href="{{ route('monteur.mount-module-list', $vehicle->id) }}">Monteer
+                            Modules</x-link-button>
+
                     </li>
                 @endforeach
             </ul>

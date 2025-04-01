@@ -111,9 +111,8 @@
 
 
                                         <td class="px-6 py-4 text-sm text-gray-600">
-                                            <button type="submit">
-                                                Voeg toe aan productieplanning
-                                            </button>
+                                            <x-submit-button>Submit</x-submit-button>
+
                                             </form>
                                         </td>
                                     </tr>

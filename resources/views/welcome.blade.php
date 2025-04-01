@@ -19,7 +19,8 @@
             </style>
         @endif
     </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-gray-200 flex p-8 lg:p-12 items-center justify-center min-h-screen flex-col transition-colors duration-300">
+
         <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
     @if (Route::has('login'))
     <nav class="flex items-center justify-end gap-4">
@@ -42,12 +43,14 @@
 @endif
 
         </header>
-        <div class="text-white">
-            Welkom!
+        
+        <div class="text-white text-center text-lg font-semibold bg-gray-800 p-6 rounded-lg shadow-lg">
+            Welkom bij <span class="text-green-400">FutureFactory</span>! Log in op uw account.
         </div>
-
+        
         @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
+            <div class="hidden lg:block h-16"></div>
         @endif
+        
     </body>
 </html>

@@ -38,9 +38,8 @@
                         </div>
 
                         <div class="mt-6">
-                            <button type="submit">
-                                Bereken Totaal Kosten
-                            </button>
+                            <x-submit-button>Bereken totaal kosten</x-submit-button>
+
                         </div>
                     </form>
 

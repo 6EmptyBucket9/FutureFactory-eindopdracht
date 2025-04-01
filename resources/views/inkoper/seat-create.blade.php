@@ -61,7 +61,7 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Maak Seat Module Aan</button>
+                        <x-submit-button>Maak module aan</x-submit-button>
                     </form>
                 </div>
             </div>

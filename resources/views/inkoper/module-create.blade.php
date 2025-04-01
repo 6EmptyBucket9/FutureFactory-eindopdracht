@@ -133,9 +133,7 @@
                             class="border-gray-300 rounded w-full">
 
                         {{-- Submit knop --}}
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">
-                            Opslaan
-                        </button>
+                        <<x-submit-button>Maak module aan</x-submit-button>
                     </form>
                 </div>
             </div>

@@ -56,8 +56,8 @@
                             @error('image') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Maak Drivetrain Module Aan</button>
+                        
+                        <x-submit-button>Maak module aan</x-submit-button>
                     </form>
                 </div>
             </div>

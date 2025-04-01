@@ -15,8 +15,24 @@ use App\Http\Controllers\MountModuleController;
 use App\Http\Controllers\VehicleListController;
 use App\Http\Controllers\VehicleConfigurationController;
 use App\Http\Controllers\VehicleController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
+    if (Auth::check()){
+        $user = Auth::user();
+
+        if ($user->role = 'monteur') {
+            return redirect()->route('monteur.dashboard');
+        } elseif ($user->role = 'inkoper') {
+            return redirect()->route('inkoper.dashboard');  
+        } elseif ($user->role = 'planner') {
+            return redirect()->route('planner.dashboard');  
+        } elseif ($user->role = 'klant') {
+            return redirect()->route('klant.dashboard');  
+        }
+        
+ 
+    }
     return view('welcome');
 });
 
